@@ -4,6 +4,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.8.34511.84
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net3.Services.User", "Net3.Services.User\Net3.Services.User.csproj", "{D0A6C621-989F-4074-889D-6384CFCC41E4}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5DD4CA91-0E63-4204-88C4-F1BB2EB68884} = {5DD4CA91-0E63-4204-88C4-F1BB2EB68884}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Net3.Services.User.UserServices", "UserServices\Net3.Services.User.UserServices.csproj", "{5DD4CA91-0E63-4204-88C4-F1BB2EB68884}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +20,10 @@ Global
 		{D0A6C621-989F-4074-889D-6384CFCC41E4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D0A6C621-989F-4074-889D-6384CFCC41E4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D0A6C621-989F-4074-889D-6384CFCC41E4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5DD4CA91-0E63-4204-88C4-F1BB2EB68884}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5DD4CA91-0E63-4204-88C4-F1BB2EB68884}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5DD4CA91-0E63-4204-88C4-F1BB2EB68884}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5DD4CA91-0E63-4204-88C4-F1BB2EB68884}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,3 +1,6 @@
+using Net3.Services.User.Services;
+using UserServices.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -7,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+builder.Services.AddSingleton<IUserService, UserService>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
