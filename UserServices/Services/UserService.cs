@@ -1,20 +1,48 @@
-﻿using System.Net;
+﻿using Microsoft.Extensions.Configuration;
+using Net3.Services.User.UserServices.Models;
+using System.Data;
+using System.Data.SqlClient;
+using System.Net;
 using UserServices.Services;
 
 namespace Net3.Services.User.Services
 {
     public class UserService : IUserService
     {
-        public HttpStatusCode UserLogin(string user, string pass)
+        protected readonly IConfiguration _configuration;
+        public UserService(IConfiguration configuration) 
         {
-            return HttpStatusCode.OK;
+            _configuration = configuration;
         }
 
-        public async Task<HttpStatusCode> LoginAsync(string user)
+        public async Task<bool> UserSignupAsync(UserModel user)
         {
-            Task<HttpStatusCode> response = null;
+            SqlConnection conn = new SqlConnection(_configuration["ConnectionStrings:Database"]);
+            var cmd = new SqlCommand("sp_create_user", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
 
-            return response.Result;
+            cmd.Parameters.Add("@UserID", SqlDbType.NVarChar);
+            cmd.Parameters.Add("@PasswordHash", SqlDbType.NVarChar);
+            cmd.Parameters.Add("@Email", SqlDbType.NVarChar);
+
+            cmd.Parameters["@UserID"].Value = user.UserId;
+            cmd.Parameters["@PasswordHash"].Value = user.PasswordHash;
+            cmd.Parameters["@Email"].Value = user.Email;
+
+            try
+            {
+                conn.Open();
+                if (cmd.ExecuteNonQuery() != 0)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+            finally { conn.Close(); }
         }
     }
 }

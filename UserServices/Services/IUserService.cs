@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Net3.Services.User.UserServices.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -9,6 +10,6 @@ namespace UserServices.Services
 {
     public interface IUserService
     {
-        HttpStatusCode UserLogin(string user, string pass);
+        Task<bool> UserSignupAsync(UserModel user);
     }
 }
