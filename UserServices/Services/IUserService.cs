@@ -11,5 +11,6 @@ namespace UserServices.Services
     public interface IUserService
     {
         Task<bool> UserSignupAsync(UserModel user);
+        Task<bool> UserLoginAsync(UserModel user);
     }
 }
