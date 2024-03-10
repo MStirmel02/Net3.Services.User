@@ -12,10 +12,12 @@ namespace Net3.Services.User.Controllers
     public class UserController : ControllerBase
     {
         IUserService _userService;
+        ILogger<UserController> _logger;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, ILogger<UserController> logger)
         {
             _userService = userService;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -32,6 +34,7 @@ namespace Net3.Services.User.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message, typeof(UserController));
                 return new ResponseModel<bool>
                 {
                     Error = new Error
@@ -57,6 +60,7 @@ namespace Net3.Services.User.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError(ex.Message, typeof(UserController));
                 return new ResponseModel<bool>
                 {
                     Error = new Error {
