@@ -26,7 +26,7 @@ namespace Net3.Services.User.Controllers
         [ProducesResponseType(typeof(ResponseModel<bool>), 500)]
         public async Task<ResponseModel<bool>> LoginUserAsync([Required][FromBody] UserModel user)
         {
-            ResponseModel<bool> response = null;
+            ResponseModel<bool> response = new ResponseModel<bool>();
             try
             {
                 response.Response = await _userService.UserLoginAsync(user);
@@ -52,7 +52,7 @@ namespace Net3.Services.User.Controllers
         [ProducesResponseType(typeof(ResponseModel<bool>), 500)]
         public async Task<ResponseModel<bool>> SignupUserAsync([FromBody][Required] UserModel user)
         {
-            ResponseModel<bool> response = null;
+            ResponseModel<bool> response = new ResponseModel<bool>();
             try
             {
                 response.Response = await _userService.UserSignupAsync(user);
