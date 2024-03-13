@@ -24,11 +24,16 @@ namespace Net3.Services.User.Controllers
         [Route("/login")]
         [ProducesResponseType(typeof(ResponseModel<bool>), 200)]
         [ProducesResponseType(typeof(ResponseModel<bool>), 500)]
-        public async Task<ResponseModel<bool>> LoginUserAsync([Required][FromBody] UserModel user)
+        public async Task<ResponseModel<bool>> LoginUserAsync([Required][FromHeader] string userId, [Required][FromHeader] string passwordHash)
         {
             ResponseModel<bool> response = new ResponseModel<bool>();
             try
             {
+                UserModel user = new UserModel
+                {
+                    UserId = userId,
+                    PasswordHash = passwordHash
+                };
                 response.Response = await _userService.UserLoginAsync(user);
                 return response;
             }
