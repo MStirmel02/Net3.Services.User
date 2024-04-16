@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Configuration;
+using Net3.Services.Channel.Services.Services;
 using Net3.Services.User.UserServices.Models;
 using System.Data;
 using System.Data.SqlClient;
 using System.Net;
+using System.Threading.Channels;
 using UserServices.Services;
 
 namespace Net3.Services.User.Services
@@ -18,59 +20,64 @@ namespace Net3.Services.User.Services
         public async Task<bool> UserSignupAsync(UserModel user)
         {
             SqlConnection conn = new SqlConnection(_configuration["ConnectionStrings:Database"]);
-            var cmd = new SqlCommand("sp_create_user", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@UserID", SqlDbType.NVarChar);
-            cmd.Parameters.Add("@PasswordHash", SqlDbType.NVarChar);
-            cmd.Parameters.Add("@Email", SqlDbType.NVarChar);
-
-            cmd.Parameters["@UserID"].Value = user.UserId;
-            cmd.Parameters["@PasswordHash"].Value = user.PasswordHash;
-            cmd.Parameters["@Email"].Value = user.Email;
+            List<SqlParameter> sqlParam = new List<SqlParameter>
+            {
+                new SqlParameter
+                {
+                    ParameterName = "@UserID",
+                    Value = user.UserId
+                },
+                new SqlParameter
+                {
+                    ParameterName = "@PasswordHash",
+                    Value = user.PasswordHash
+                },
+                new SqlParameter
+                {
+                    ParameterName = "@Email",
+                    Value = user.Email
+                }
+            };
 
             try
             {
-                conn.Open();
+                int result = await SqlExecutor.ExecuteNonQueryAsync(conn, sqlParam, "sp_create_user");
 
-                if (cmd.ExecuteNonQueryAsync().Result != 0)
-                {
-                    return true;
-                }
-                return false;
+                return result == 1;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
-            finally { conn.Close(); }
         }
 
         public async Task<bool> UserLoginAsync(UserModel user)
         {
             SqlConnection conn = new SqlConnection(_configuration["ConnectionStrings:Database"]);
-            var cmd = new SqlCommand("sp_user_sign_in", conn);
-            cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.Add("@UserID", SqlDbType.NVarChar);
-            cmd.Parameters.Add("@PasswordHash", SqlDbType.NVarChar);
-
-            cmd.Parameters["@UserID"].Value = user.UserId;
-            cmd.Parameters["@PasswordHash"].Value = user.PasswordHash;
+            List<SqlParameter> sqlParam = new List<SqlParameter>
+            {
+                new SqlParameter
+                {
+                    ParameterName = "@UserID",
+                    Value = user.UserId
+                },
+                new SqlParameter
+                {
+                    ParameterName = "@PasswordHash",
+                    Value = user.PasswordHash
+                }
+            };
 
             try
             {
-                conn.Open();
+                int result = await SqlExecutor.ExecuteNonQueryAsync(conn, sqlParam, "sp_user_sign_in");
 
-                if (cmd.ExecuteNonQueryAsync().Result != 0)
-                {
-                    return true;
-                }
-                return false;
+                return result == 1;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                return false;
+                throw ex;
             }
-            finally { conn.Close(); }
         }
     }
 }
