@@ -14,7 +14,7 @@ namespace Net3.Services.User.UserServices.Models
         public string UserId { get; set; }
         [Required]
         public string PasswordHash { get; set; }
-        public string Email { get; set; }
+        public string? Email { get; set; }
         public DateTime? DateCreated { get; set; }
     }
 }

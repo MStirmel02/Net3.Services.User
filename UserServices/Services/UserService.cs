@@ -31,11 +31,6 @@ namespace Net3.Services.User.Services
                 {
                     ParameterName = "@PasswordHash",
                     Value = user.PasswordHash
-                },
-                new SqlParameter
-                {
-                    ParameterName = "@Email",
-                    Value = user.Email
                 }
             };
 
