@@ -12,5 +12,6 @@ namespace UserServices.Services
     {
         Task<bool> UserSignupAsync(UserModel user);
         Task<bool> UserLoginAsync(UserModel user);
+        Task<List<AdminUserModel>> AdminGetUserMsgAsync();
     }
 }

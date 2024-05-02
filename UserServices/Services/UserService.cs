@@ -74,5 +74,30 @@ namespace Net3.Services.User.Services
                 throw ex;
             }
         }
+
+        public async Task<List<AdminUserModel>> AdminGetUserMsgAsync()
+        {
+
+            SqlConnection conn = new SqlConnection(_configuration["ConnectionStrings:Database"]);
+            List<SqlParameter> sqlParam = new List<SqlParameter>();
+            try
+            {
+                DataSet ds = await SqlExecutor.ExecuteQueryAsync(conn, sqlParam, "sp_select_users_msg");
+                List<AdminUserModel> result = new List<AdminUserModel>();
+                foreach (DataRow row in ds.Tables[0].Rows)
+                {
+                    result.Add(new AdminUserModel
+                    {
+                        UserID = row["UserID"].ToString(),
+                        MessageCount = int.Parse(row["MessageCount"].ToString())
+                    });
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }

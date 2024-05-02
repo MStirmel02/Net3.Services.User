@@ -75,5 +75,32 @@ namespace Net3.Services.User.Controllers
                 };
             }
         }
+
+
+        [HttpGet]
+        [Route("/getall")]
+        [ProducesResponseType(typeof(ResponseModel<List<AdminUserModel>>), 200)]
+        [ProducesResponseType(typeof(ResponseModel<List<AdminUserModel>>), 500)]
+        public async Task<ResponseModel<List<AdminUserModel>>> GetAllUsersAsync()
+        {
+            ResponseModel<List<AdminUserModel>> response = new ResponseModel<List<AdminUserModel>>();
+            try
+            {
+                response.Response = await _userService.AdminGetUserMsgAsync();
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message, typeof(UserController));
+                return new ResponseModel<List<AdminUserModel>>
+                {
+                    Error = new Error
+                    {
+                        Code = 500,
+                        Message = ex.Message
+                    }
+                };
+            }
+        }
     }
 }
